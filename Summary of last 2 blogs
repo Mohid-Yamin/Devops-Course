@@ -51,3 +51,7 @@ Challenges and Best Practices
 Challenges include complexity at scale, state file management, and security risks. Best practices such as modular code design, secret management (e.g., HashiCorp Vault), automated testing, and version control ensure successful IaC implementation.
 
 Both managed Kubernetes services and IaC streamline modern cloud operations, offering scalability, efficiency, and security, enabling organizations to focus on innovation.
+
+To fully read these blogs, visit: 
+https://medium.com/@mohidyamin/managed-kubernetes-offerings-aks-eks-and-gke-70e87fb527df
+https://medium.com/@mohidyamin/infrastructure-as-code-iac-automating-cloud-infrastructure-3985d3b25c2d
