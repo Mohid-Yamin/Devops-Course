@@ -1,0 +1,108 @@
+DevOps Project: Simple Web Application Deployment with Code
+
+Project Overview
+Deploy a basic static website using DevOps tools: GitHub, Terraform, GitHub Actions, and Nginx, with monitoring using Prometheus and Grafana.
+
+Steps and Code Implementation:
+
+Version Control with Git & GitHub
+
+Create a GitHub repository for the static website.
+
+bash
+
+git init
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin <your-repo-url>
+git push -u origin main
+
+Infrastructure Provisioning with Terraform
+Example: Provision an AWS EC2 instance.
+
+hcl
+
+provider "aws" {
+  region = "us-east-1"
+}
+
+resource "aws_instance" "web_server" {
+  ami           = "ami-0c02fb55956c7d316" # Amazon Linux 2 AMI
+  instance_type = "t2.micro"
+  tags = {
+    Name = "DevOpsProject"
+  }
+}
+
+Commands to Run Terraform:
+
+bash
+
+terraform init
+terraform apply -auto-approve
+
+
+Configure Nginx for Web Hosting
+Install and configure Nginx on the EC2 instance.
+
+Script to Install Nginx:
+
+bash
+
+sudo yum update -y
+sudo yum install nginx -y
+sudo systemctl start nginx
+sudo systemctl enable nginx
+
+echo "<h1>Welcome to My Static Website</h1>" | sudo tee /usr/share/nginx/html/index.html
+CI/CD Pipeline with GitHub Actions
+
+Automate deployment using GitHub Actions.
+
+.github/workflows/deploy.yml:
+
+yaml
+
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Deploy to Server
+      run: |
+        ssh -i your-key.pem ec2-user@<your-ec2-ip> << 'EOF'
+        sudo yum update -y
+        sudo yum install nginx -y
+        echo "<h1>Updated Website via CI/CD</h1>" > /usr/share/nginx/html/index.html
+        sudo systemctl restart nginx
+        EOF
+
+Add Monitoring with Prometheus & Grafana
+Install Prometheus and Grafana on the server.
+
+Install Prometheus:
+
+bash
+
+sudo useradd --no-create-home --shell /bin/false prometheus
+wget https://github.com/prometheus/prometheus/releases/download/v2.43.0/prometheus-2.43.0.linux-amd64.tar.gz
+tar -xvf prometheus-2.43.0.linux-amd64.tar.gz
+Install Grafana:
+
+bash
+sudo yum install grafana -y
+sudo systemctl start grafana-server
+sudo systemctl enable grafana-server
+
+
+This project demonstrates the core DevOps practices of automation, scalability, and monitoring for a simple web deployment. You can customize it further for more advanced requirements.
